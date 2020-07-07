@@ -10,7 +10,5 @@
 .idea
 *.iws
 *.iml
-*.ipr
-
-
+*.ipr\
 applicaiton-oauth.properties
