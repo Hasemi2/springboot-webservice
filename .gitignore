@@ -11,3 +11,6 @@
 *.iws
 *.iml
 *.ipr
+
+
+applicaiton-oauth.properties
