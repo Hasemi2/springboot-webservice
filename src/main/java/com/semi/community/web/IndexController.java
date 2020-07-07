@@ -4,6 +4,8 @@ import com.semi.community.config.auth.LoginUser;
 import com.semi.community.config.auth.dto.SessionUser;
 import com.semi.community.service.PostsService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,13 +18,17 @@ import javax.mail.Session;
 public class IndexController {
 
     private final PostsService postsService;
+    private final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @GetMapping("/")
     public String index(Model model, @LoginUser SessionUser user) {
         model.addAttribute("posts", postsService.findAllDesc());
-        if(user != null) {
-            model.addAttribute("userName" , user.getName());
-        }
+//        logger.debug("=============================================Home");
+//        logger.debug("=============================================user != null " + (user != null));
+//
+//        if(user != null) {
+//            model.addAttribute("userName" , user.getName());
+//        }
         return "index";
     }
 

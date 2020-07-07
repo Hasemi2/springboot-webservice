@@ -48,7 +48,7 @@ public class OAuthAttributes {
     }
 
     /**
-     * OAuthAttributes에서 엔티티를 생성하느느 시점은 처음 가입할 때를 기점으로
+     * OAuthAttributes에서 엔티티를 생성하는 시점은 처음 가입할 때를 기점으로
      * 가입할 떄의 기본 권한은 GUEST
      *
      * @return

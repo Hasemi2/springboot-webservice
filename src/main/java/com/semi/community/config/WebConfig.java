@@ -16,7 +16,8 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private LoginUserArgumentResolver loginUserArgumentResolver;
+    private final LoginUserArgumentResolver loginUserArgumentResolver;
+    
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(loginUserArgumentResolver);
