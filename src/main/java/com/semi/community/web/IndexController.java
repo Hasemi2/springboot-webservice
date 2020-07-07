@@ -18,17 +18,13 @@ import javax.mail.Session;
 public class IndexController {
 
     private final PostsService postsService;
-    private final Logger logger = LoggerFactory.getLogger(IndexController.class);
 
     @GetMapping("/")
     public String index(Model model, @LoginUser SessionUser user) {
         model.addAttribute("posts", postsService.findAllDesc());
-//        logger.debug("=============================================Home");
-//        logger.debug("=============================================user != null " + (user != null));
-//
-//        if(user != null) {
-//            model.addAttribute("userName" , user.getName());
-//        }
+        if(user != null) {
+            model.addAttribute("userName" , user.getName());
+        }
         return "index";
     }
 
