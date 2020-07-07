@@ -5,11 +5,11 @@
         <div class="row">
             <div class="col-md-6">
                 <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
-                {{#userName}}
+                {{#userName}} <!--섹션 : 조건문 반복문 대신, #이 false,0, null 일경우 출력x-->
                     Logged in as: <span id="user">{{userName}}</span>
                     <a href="/logout" class="btn btn-info active" role="button">Logout</a>
                 {{/userName}}
-                {{^userName}}
+                {{^userName}} <!--^: 해당 값 존재 x -->
                     <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
                     <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">Naver Login</a>
                 {{/userName}}
