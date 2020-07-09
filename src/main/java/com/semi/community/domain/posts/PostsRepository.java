@@ -1,5 +1,6 @@
 package com.semi.community.domain.posts;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -11,7 +12,8 @@ import java.util.List;
  */
 public interface PostsRepository extends JpaRepository<Posts, Long> {
 
-    @Query("SELECT p FROM Posts p ORDER BY p.id DESC")
-    List<Posts> findAllDesc();
+    // TODO: 2020-07-09  페이징 객체 pageable 사용 가능 하다는데?
+    @Query(value = "SELECT p FROM Posts p ORDER BY p.id DESC")
+    List<Posts> findAllDesc(Pageable pageable);
 
 }
