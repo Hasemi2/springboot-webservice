@@ -38,8 +38,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-security")
     compile('org.springframework.boot:spring-boot-starter-oauth2-client')
     compile('org.springframework.session:spring-session-jdbc')
-    compile 'io.sentry:sentry-logback:1.7.27'
-    compile 'io.sentry:sentry-spring:1.7.27'
+    compile('io.sentry:sentry-logback:1.7.27')
+    compile('io.sentry:sentry-spring:1.7.27')
 }
 
 
