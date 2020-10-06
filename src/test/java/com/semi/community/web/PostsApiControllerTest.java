@@ -37,7 +37,7 @@ public class PostsApiControllerTest {
     private int port;
 
     @Autowired
-    private TestRestTemplate testRestTemplate;//JPA 기능까지 테스트시 사용
+    private TestRestTemplate restTemplate;
 
     @Autowired
     private PostsRepository postsRepository;
@@ -45,11 +45,11 @@ public class PostsApiControllerTest {
     @Autowired
     private WebApplicationContext context;
 
-    private MockMvc mockMvc;
+    private MockMvc mvc;
 
     @Before
-    public void setup(){
-        mockMvc = MockMvcBuilders
+    public void setup() {
+        mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
@@ -61,8 +61,9 @@ public class PostsApiControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER")
-    public void postInsertTest() throws Exception {
+    @WithMockUser(roles="USER")
+    public void Posts_등록된다() throws Exception {
+        //given
         String title = "title";
         String content = "content";
         PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder()
@@ -72,53 +73,49 @@ public class PostsApiControllerTest {
                 .build();
 
         String url = "http://localhost:" + port + "/api/v1/posts";
-//
-//        ResponseEntity<Long> responseEntity = testRestTemplate.postForEntity(url, requestDto, Long.class);
-//
-//        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//        assertThat(responseEntity.getBody()).isGreaterThan(0L);
 
-       mockMvc.perform(post(url)
+        //when
+        mvc.perform(post(url)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-               .content(new ObjectMapper().writeValueAsString(requestDto)))
-               .andExpect(status().isOk());
+                .content(new ObjectMapper().writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
 
-
+        //then
         List<Posts> all = postsRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(title);
         assertThat(all.get(0).getContent()).isEqualTo(content);
     }
 
     @Test
-    @WithMockUser(roles = "USER")
-    public void postUpdateTest() throws Exception {
+    @WithMockUser(roles="USER")
+    public void Posts_수정된다() throws Exception {
+        //given
+        Posts savedPosts = postsRepository.save(Posts.builder()
+                .title("title")
+                .content("content")
+                .author("author")
+                .build());
 
-        Posts savedPosts = postsRepository.save(Posts.builder().title("제목1").author("글쓴이1").content("내용1").build());
+        Long updateId = savedPosts.getId();
+        String expectedTitle = "title2";
+        String expectedContent = "content2";
 
-        Long id = savedPosts.getId();
-        String title = "제목2";
-        String content = "내용2";
+        PostsUpdateRequestDto requestDto = PostsUpdateRequestDto.builder()
+                .title(expectedTitle)
+                .content(expectedContent)
+                .build();
 
-        PostsUpdateRequestDto requestDto =
-                PostsUpdateRequestDto.builder().title(title).content(content).build();
+        String url = "http://localhost:" + port + "/api/v1/posts/" + updateId;
 
-        String url = "http://localhost:" + port + "/api/v1/posts/" + id;
-
-//        HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
-//
-//        ResponseEntity<Long> responseEntity = testRestTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
-//
-//        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//        assertThat(responseEntity.getBody()).isGreaterThan(0L);
-
-        mockMvc.perform(put(url)
+        //when
+        mvc.perform(put(url)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(new ObjectMapper().writeValueAsString(requestDto)))
                 .andExpect(status().isOk());
 
+        //then
         List<Posts> all = postsRepository.findAll();
-        assertThat(all.get(0).getTitle()).isEqualTo(title);
-        assertThat(all.get(0).getContent()).isEqualTo(content);
-
+        assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
+        assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
     }
 }
