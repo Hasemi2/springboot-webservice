@@ -25,24 +25,24 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    public CommandLineRunner runner(UserRepository userRepository, PostsRepository postsRepository) throws Exception{
-        return (args -> {
-            User user = userRepository.save(
-                    User.builder()
-                    .name("semi")
-                    .email("semi@semi.com")
-                    .role(Role.USER)
-                    .build());
-
-            IntStream.rangeClosed(1, 200).forEach(index ->
-                    postsRepository.save(Posts.builder()
-                    .author(user.getName() + index)
-                    .title("제목" + index)
-                    .content("내용" + index).build())
-                    );
-        });
-    }
+//    @Bean
+//    public CommandLineRunner runner(UserRepository userRepository, PostsRepository postsRepository) throws Exception{
+//        return (args -> {
+//            User user = userRepository.save(
+//                    User.builder()
+//                    .name("semi")
+//                    .email("semi@semi.com")
+//                    .role(Role.USER)
+//                    .build());
+//
+//            IntStream.rangeClosed(1, 200).forEach(index ->
+//                    postsRepository.save(Posts.builder()
+//                    .author(user.getName() + index)
+//                    .title("제목" + index)
+//                    .content("내용" + index).build())
+//                    );
+//        });
+//    }
 
     /**
      * sentry 설정
