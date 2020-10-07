@@ -34,6 +34,18 @@ deploy:
     local_dir: deploy
     wait_until_deployed : true
 
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY #Travis 설정
+    secret_access_key: $AWS_SECRET_KEY #Travis 설정
+
+    bucket: springboot-webservice-build # s3 버킷 이름
+    key : springboot-webservice.zip #빌드파일을 압축해서 전달
+    build_type : zip
+    application: springboot-webservice # codedeploy 웹 콘솔에 지정된 애플리케이션 이름
+    deployment_group : springboot-webservice-group # 웹콘솔 배포그룹
+    region: ap-northeast-2
+    wait-until-deployed: true
+
 # CI 실행 완료 시 메일로 알람
 notifications:
   email:
