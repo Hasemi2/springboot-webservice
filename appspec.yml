@@ -18,7 +18,7 @@ hooks: # ApplicationStart 단계에서 deploy.sh 를 ec2-user 권한으로 실�
       timeout: 60
       runas: ec2-user
   ApplicationStart:
-    - location: start  .sh #엔진엑스와 연결되어있지않은 port로 새버전의 스프링부트 시작
+    - location: start.sh #엔진엑스와 연결되어있지않은 port로 새버전의 스프링부트 시작
       timeout: 60
       runas: ec2-user
   ValidateService:
